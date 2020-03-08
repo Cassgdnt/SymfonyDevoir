@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Devoir Symfony{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Liste des utilisateurs</h1>
+    {% if accueils is not empty %}  <!--Condition pour afficher la table ou un message-->
+        <table class="table">
+        <thead>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Email</th>
+            <th>Date d'inscription</th>
+            <th>Nombre de Tâches</th>
+        </thead>
+        <tbody>
+            {% for accueil in accueils %} <!--Boucle pour afficher toutes les utilisateurs(accueil)-->
+            <tr>
+                <td>
+                <a href="{{path('edit_accueil', {'id':accueil.id})}}">{{accueil.nom}}
+                </a>
+                </td>
+                <td>{{accueil.prenom}}</td>
+                <td>{{accueil.email}}</td>
+                <td>{{accueil.getDate().format('Y-m-d H:i:s')}}</td><!--Format pour la date-->
+                <td>{{accueil.taches.count}}</td><!--Compteur pour le nombres de taches assignées à l'utilisateur-->
+
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        {% else %}
+        <p>Il n'y a aucun utilisateur </p>
+        <!--message qui n'apparait que s'il n'y a qu'un utilisateur-->
+    {% endif %}
+    <hr>
+    <h1>Ajouter un utilisateur</h1>
+        {{form(form_ajout)}}
+        <!--Formaulaire pour ajouter un utilisateur-->
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+{% block title %}{{accueil.nom}}{% endblock %}
+{% block body %}
+<button class="btn btn-outline-dark"><a href="{{path('accueil',{'id':accueil.id})}}">Retour à la liste des taches</a></button>
+    <p>Nom de l'utilisateur :</p>
+    <h2>{{accueil.nom}}</h2>
+    <p>Prénom de l'utilisateur :</p>
+    <h2>{{accueil.prenom}}</h2>
+    <p>Email de l'utilisateur :</p>
+    <h2>{{accueil.email}}</h2>
+    <!--Affichage de l'utilisateur-->
+    <hr>
+    <h1> Liste des tâches de associées à cet utilisateur :</h1>
+
+    {% if accueil.taches is not empty %} <!--Condition pour afficher les taches ou un message-->
+        <table class="table">
+        <thead>
+            <th>Nom de la tâche</th>
+            <th>Etat de la tâche</th>
+            <th>Deadline</th>
+        </thead>
+        <tbody>
+            {% for tache in accueil.taches %} <!--Boucle pour afficher les taches de l'utilisateur-->
+            <tr>
+                <td>
+                <a href="{{path('edit_tache', {'id':tache.id})}}">{{tache.nom}}
+                </a>
+                </td>
+                <td>
+                            {% if tache.etat == false %}
+                                <p>Tâche en cours<p> 
+                            {% else %}
+                                <p>Tâche finie<p> 
+                            {% endif %}<!--Condition de si la tâche est accomplie ou non-->
+                        </td>
+                <td>{{tache.getdeadline().format('Y-m-d')}}</td> <!--Format pour la date-->
+                <td><a href="{{path('delete_tache',{'id':tache.id})}}">Supprimer</a></td><!--Supprimer la tache de la table-->
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        {% else %}
+
+        <p> Il ne possède aucune tache </p>
+
+    {% endif %}
+
+<hr>
+    <h2>Modifier cet utilisateur</h2>
+    {{form(form_edit)}}
+    <!--formulaire de modification-->
+
+{% endblock %}

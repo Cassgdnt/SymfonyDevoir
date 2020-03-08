@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste des tâches{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Liste des Tâches</h1>
+    {% if taches is not empty %} <!--Condition pour afficher la table ou un message-->
+        <table class="table">
+        <thead>
+            <th>Nom de la tâche</th>
+            <th>Etat de la tâche</th>
+            <th>Deadline</th>
+            <th>Nom de l'utilisateur</th>
+        </thead>
+        <tbody>
+            {% for tache in taches %}  <!--Boucle pour afficher toutes les tâches-->
+            <tr>
+                <td>
+                <a href="{{path('edit_tache', {'id':tache.id})}}">{{tache.nom}}
+                </a>
+                </td><!--Lien qui permet d'acceder à la page de modification de  la tâche-->
+                <td>
+                            {% if tache.etat == false %}
+                                <p>Tache en cours<p> 
+                            {% else %}
+                                <p>Tache finie<p> 
+                            {% endif %}
+                        </td><!--Condition de si la tâche est accomplie ou non-->
+                <td>{{tache.getdeadline().format('Y-m-d')}}</td> <!--Format pour la date-->
+                <td>{{tache.utilisateur}}</td> <!--Utilisateur à qui la tâche est assignée-->
+                <td><a href="{{path('delete_tache',{'id':tache.id})}}">Supprimer</a></td>
+                <!--Supprimer la tache de la table-->
+            
+            </tr>
+            {% endfor %} 
+        </tbody>
+        </table>
+        {% else %}
+        <p>Il n'y a aucune tache </p>
+        <!--Message qui n'apparait que s'il n'y a aucune tache-->
+    {% endif %}
+    <hr>
+    <h1>Ajouter une tâche</h1>
+        {{form(form_ajout)}}
+    <!--Formulaire pour ajouter une tâche-->
+</div>
+{% endblock %}

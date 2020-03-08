@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+{% block title %}{{tache.nom}}{% endblock %}
+{% block body %}
+<button class="btn btn-outline-dark"><a href="{{path('tache',{'id':tache.id})}}">Retour à la liste des taches</a></button>
+    <p>Nom de la tâche :</p>
+    <h2>{{tache.nom}}</h2>
+    <p>Deadline pour réaliser la tâche :</p>
+    <h2>{{tache.getdeadline().format('Y-m-d')}}</h2> <!--Format pour la date-->
+    <p>Utilisateur à qui la tâche est assignée :</p>
+    <h2>{{tache.utilisateur}}</h2> <!--Le nom de l'utilisateur viens de la table Accueil-->
+    <!--Affichage de toutes les taches-->
+    
+<hr>
+    <h1>Modifier la tâche</h1>
+    {{form(form_edit)}}
+    <!--Formulaire pour modifier la tache sélectionnée-->
+
+{% endblock %}
